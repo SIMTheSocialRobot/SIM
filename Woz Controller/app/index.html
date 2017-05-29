@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/bootstrap-toggle.min.css" rel="stylesheet">
+
+  <title>SIM Controller</title>
+</head>
+<body>
+ <!-- Begin page content -->
+ <div class="container">
+   <br>
+
+   <div class="row">
+    <div class = "col-md-12">
+      <h3>Mode</h3>
+      <input id="mode" type="checkbox" checked data-toggle="toggle" data-on="SIM" data-off="DUM" data-onstyle="success" data-offstyle="danger">
+
+    </div>
+  </div>
+
+  <hr>
+  <div class="row">
+    <div class = "col-md-12">
+      <h3>Gaze</h3>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" id="blankCheckbox" value="option1" aria-label="Follow Face">
+          Follow Face (Face Detector must be running)
+        </label>
+      </div>
+      <a class="btn btn-default" href="#" role="button">table</a>
+      <a class="btn btn-default" href="#" role="button">participant</a>
+      <a class="btn btn-default" href="#" role="button">experimenter</a>
+    </div>
+  </div>
+
+  <hr>
+  <div class="row">
+    <div class = "col-md-12">
+      <h3>Actions</h3>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" id="idle" value="option1" aria-label="Idle">
+          Idle
+        </label>
+      </div>
+      <a class="btn btn-default" href="#" role="button">think</a>
+      <a class="btn btn-default" href="#" role="button">yes</a>
+      <a class="btn btn-default" href="#" role="button">no</a>
+      <a class="btn btn-default" href="#" role="button">wake</a>
+      <a class="btn btn-default" href="#" role="button">sleep</a>   
+    </div>
+  </div>
+
+  <hr>
+  <div class="row">
+    <div class = "col-md-12">
+      <h3>Expressions</h3>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" id="blankCheckbox" value="option1" aria-label="Follow Face">
+          Use SIM Table (Emotion Recognition must be running)
+        </label>
+      </div>
+      <a class="btn btn-default" href="#" role="button">happy</a>
+      <a class="btn btn-default" href="#" role="button">sad</a>
+      <a class="btn btn-default" href="#" role="button">shocked</a>
+      <a class="btn btn-default" href="#" role="button">little happy</a>
+      <a class="btn btn-default" href="#" role="button">little sad</a>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p class="text-muted">SIM Controller 1.0 | Team NonVerbal</p>
+  </div>
+</footer>
+
+<script>
+  window.jQuery = window.$ = require('jquery');
+</script>
+
+
+<script type="text/javascript">
+  // In renderer process (web page).
+  const {ipcRenderer} = require('electron')
+  var buttons = document.querySelectorAll('.btn');
+  buttons.forEach(function(button) {
+    button.addEventListener('click', function () {
+      if($('#mode').is(':checked')) {
+        ipcRenderer.send('asynchronous-command', button.innerHTML)   
+      } else {
+        ipcRenderer.send('asynchronous-command', button.innerHTML + '_d')   
+      }
+      
+    });
+  });
+
+  $('#mode').change(function(){
+    ipcRenderer.send('asynchronous-command', 'switch_state');
+  })
+
+  var interval;
+  $('#idle').change(function(){
+    if($('#idle').is(':checked')) {
+      interval = window.setInterval(function(){
+        if($('#mode').is(':checked')) {
+          ipcRenderer.send('asynchronous-command', 'idle')   
+        } 
+      }, 3000)
+    } else {
+      window.clearInterval(interval)   
+    }
+  })
+
+  
+</script>
+
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-toggle.min.js"></script>
+
+</body>
+</html>

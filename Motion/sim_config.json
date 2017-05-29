@@ -1,0 +1,50 @@
+{
+  "controllers": {
+    "my_dxl_controller": {
+      "sync_read": false, 
+      "attached_motors": [
+        "base"
+      ], 
+      "port": "/dev/cu.usbmodem1421"
+    }
+  }, 
+  "motorgroups": {
+    "base": [
+      "m1", 
+      "m2",
+      "m3"
+    ]
+  }, 
+  "motors": { 
+    "m1": {
+      "offset": 0.0, 
+      "type": "AX-18", 
+      "orientation": "direct", 
+      "angle_limit": [
+        -50.0, 
+        90.0
+      ], 
+      "id": 1
+    }, 
+    "m2": {
+      "offset": 0.0, 
+      "type": "AX-18", 
+      "orientation": "indirect", 
+      "angle_limit": [
+        -50.0, 
+        50.0
+      ], 
+      "id": 2
+    }, 
+    "m3": {
+      "offset": 0.0, 
+      "type": "AX-18", 
+      "orientation": "indirect", 
+      "angle_limit": [
+        -50.0, 
+        50.0
+      ], 
+      "id": 3
+    }
+  }
+}
