@@ -1,0 +1,3 @@
+[submodule "NonVerbal"]
+	path = NonVerbal
+	url = https://github.com/johnluetke/NonVerbal.git
